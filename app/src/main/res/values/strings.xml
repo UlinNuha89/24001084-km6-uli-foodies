@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">foodies</string>
+    <string name="app_name">foodies</string> <string name="text_name">Hai, Ulin Nuha !</string>
+    <string name="text_greetings">Hello, what do you want to eat today?</string>
+    <string name="text_title_banner">Today Discount!!!</string>
+    <string name="text_desc_banner">klick banner untuk membeli makanan</string>
+    <string name="text_list_menu">List Menu</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_tab_home">Home</string>
