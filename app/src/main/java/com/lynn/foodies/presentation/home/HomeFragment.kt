@@ -17,6 +17,7 @@ import com.lynn.foodies.data.repository.CatalogRepositoryImpl
 import com.lynn.foodies.data.repository.CategoryRepository
 import com.lynn.foodies.data.repository.CategoryRepositoryImpl
 import com.lynn.foodies.databinding.FragmentHomeBinding
+import com.lynn.foodies.presentation.detailcatalog.DetailCatalogActivity
 import com.lynn.foodies.presentation.home.adapter.CategoryAdapter
 import com.lynn.foodies.presentation.home.adapter.OnItemClickedListener
 import com.lynn.foodies.utils.GenericViewModelFactory
@@ -73,13 +74,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun setClickAction() {
-        binding.layoutMenuHeader.ivMenu.setOnClickListener {
+        binding.ivMenu.setOnClickListener {
             viewModel.changeListMode()
         }
     }
 
     private fun setImageListMode(usingGridMode: Boolean) {
-        binding.layoutMenuHeader.ivMenu.setImageResource(
+        binding.ivMenu.setImageResource(
             if (usingGridMode) R.drawable.ic_list_menu else R.drawable.ic_list_menu_grid
         )
     }
@@ -101,7 +102,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToDetail(item: Catalog) {
-        //start activity detail catalog using intent
+        DetailCatalogActivity.startActivity(requireContext(), item)
     }
 
 }

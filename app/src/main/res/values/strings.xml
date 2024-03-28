@@ -9,4 +9,8 @@
     <string name="title_tab_home">Home</string>
     <string name="title_tab_cart">Keranjang</string>
     <string name="title_tab_profile">Profil Akun</string>
+    <string name="text_title_lokasi">Lokasi</string>
+    <string name="text_add_to_cart">Tambah ke Keranjang - </string>
+    <string name="text_count">1</string>
+    <string name="text_add_to_cart_on_pressed">Kamu menambahkan %1$s porsi ke keranjang</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,19 +38,34 @@
             app:layout_constraintTop_toBottomOf="@id/layout_banner"
             tools:listitem="@layout/item_category" />
 
-        <include
-            android:id="@+id/layout_menu_header"
-            layout="@layout/layout_menu_header"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/tv_title_menu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:text="@string/text_list_menu"
+            android:textSize="24sp"
+            android:layout_margin="8dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_menu"
+            app:layout_constraintBottom_toBottomOf="@id/iv_menu"/>
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_list_menu"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_category" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_catalog_list"
             android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/layout_menu_header"
+            app:layout_constraintTop_toBottomOf="@id/iv_menu"
             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_catalog_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
