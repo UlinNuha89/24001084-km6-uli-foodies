@@ -2,6 +2,7 @@ package com.lynn.foodies.presentation.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
+import com.lynn.foodies.core.ViewHolderBinder
 import com.lynn.foodies.data.model.Catalog
 import com.lynn.foodies.databinding.ItemCatalogListBinding
 import com.lynn.foodies.utils.toIndonesianFormat
