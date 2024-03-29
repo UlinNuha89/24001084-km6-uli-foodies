@@ -31,8 +31,9 @@ class HomeFragment : Fragment() {
         val catalogRepository: CatalogRepository = CatalogRepositoryImpl(catalogDataSource)
         val categoryDataSource = DummyCategoryDataSource()
         val categoryRepository: CategoryRepository = CategoryRepositoryImpl(categoryDataSource)
-        GenericViewModelFactory.create(HomeViewModel(categoryRepository, catalogRepository))
+        GenericViewModelFactory.create(HomeViewModel(categoryRepository, catalogRepository,requireContext()))
     }
+
 
     private val categoryAdapter: CategoryAdapter by lazy {
         CategoryAdapter {
@@ -60,6 +61,7 @@ class HomeFragment : Fragment() {
 
     private fun observeGridMode() {
         viewModel.isUsingGridMode.observe(viewLifecycleOwner) { isUsingGridMode ->
+            viewModel.setPref(requireContext(),isUsingGridMode)
             bindCatalogList(isUsingGridMode)
             setImageListMode(isUsingGridMode)
         }
