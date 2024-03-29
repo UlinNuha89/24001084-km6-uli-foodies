@@ -38,4 +38,8 @@
     <string name="text_cash">Cash</string>
     <string name="text_e_wallet">E-Wallet</string>
     <string name="shopping_summary">Shopping summary</string>
+    <string name="text_button_Add_to_Cart">"Tambah ke Keranjang - %1$s"</string>
+    <string name="text_total_price_start_value">Rp0,00</string>
+    <string name="text_back_to_home">Kembali ke Home</string>
+    <string name="text_dialog_title">Pesanan anda akan segera dikirim</string>
 </resources>

@@ -9,12 +9,16 @@ import coil.load
 import com.lynn.foodies.R
 import com.lynn.foodies.core.ViewHolderBinder
 import com.lynn.foodies.data.model.Cart
+import com.lynn.foodies.databinding.ActivityCheckoutBinding
 import com.lynn.foodies.databinding.ItemCartProductBinding
 import com.lynn.foodies.databinding.ItemCartProductOrderBinding
+import com.lynn.foodies.presentation.checkout.CheckoutActivity
 import com.lynn.foodies.utils.doneEditing
 
 
-class CartListAdapter(private val cartListener: CartListener? = null) :
+class CartListAdapter(
+    private val cartListener: CartListener? = null,
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val dataDiffer =
@@ -43,11 +47,14 @@ class CartListAdapter(private val cartListener: CartListener? = null) :
             ItemCartProductBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             ), cartListener
-        ) else CartOrderViewHolder(
-            ItemCartProductOrderBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
+        ) else {
+            CartOrderViewHolder(
+                ItemCartProductOrderBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
             )
-        )
+        }
+
     }
 
     override fun getItemCount(): Int = dataDiffer.currentList.size
@@ -127,6 +134,7 @@ class CartOrderViewHolder(
     }
 
 }
+
 
 interface CartListener {
     fun onPlusTotalItemCartClicked(cart: Cart)
