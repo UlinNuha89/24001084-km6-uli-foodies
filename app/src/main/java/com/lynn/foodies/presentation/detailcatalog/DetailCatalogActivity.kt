@@ -75,7 +75,7 @@ class DetailCatalogActivity : AppCompatActivity() {
 
     private fun setAddToCartText(price: Double?) {
         binding.layoutBottomDetail.btnAddToCart.text =
-            getString(R.string.text_add_to_cart) + price?.toIndonesianFormat()
+            getString(R.string.text_button_Add_to_Cart, price?.toIndonesianFormat())
     }
 
     private fun setClickListener() {
@@ -106,7 +106,6 @@ class DetailCatalogActivity : AppCompatActivity() {
                         this,
                         getString(R.string.text_add_to_cart_on_pressed, count), Toast.LENGTH_SHORT
                     ).show()
-                    finish()
                 },
                 doOnError = {
                     Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)

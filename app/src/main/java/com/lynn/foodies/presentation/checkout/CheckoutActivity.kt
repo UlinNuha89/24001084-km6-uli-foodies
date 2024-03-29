@@ -1,11 +1,13 @@
 package com.lynn.foodies.presentation.checkout
 
+import android.content.Context
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.lynn.foodies.R
 import com.lynn.foodies.data.datasource.cart.CartDataSource
@@ -14,11 +16,15 @@ import com.lynn.foodies.data.repository.CartRepository
 import com.lynn.foodies.data.repository.CartRepositoryImpl
 import com.lynn.foodies.data.source.local.database.AppDatabase
 import com.lynn.foodies.databinding.ActivityCheckoutBinding
+import com.lynn.foodies.databinding.ViewDialogCheckoutBinding
 import com.lynn.foodies.presentation.checkout.adapter.PriceListAdapter
 import com.lynn.foodies.presentation.common.adapter.CartListAdapter
+import com.lynn.foodies.presentation.home.HomeFragment
 import com.lynn.foodies.utils.GenericViewModelFactory
 import com.lynn.foodies.utils.proceedWhen
 import com.lynn.foodies.utils.toIndonesianFormat
+import kotlinx.coroutines.delay
+
 
 class CheckoutActivity : AppCompatActivity() {
 
@@ -39,7 +45,6 @@ class CheckoutActivity : AppCompatActivity() {
     }
     private val priceItemAdapter: PriceListAdapter by lazy {
         PriceListAdapter {
-
         }
     }
 
@@ -54,6 +59,9 @@ class CheckoutActivity : AppCompatActivity() {
     private fun setClickListeners() {
         binding.ivBack.setOnClickListener {
             onBackPressed()
+        }
+        binding.btnCheckout.setOnClickListener {
+            checkoutDialog()
         }
     }
 
@@ -105,4 +113,21 @@ class CheckoutActivity : AppCompatActivity() {
             })
         }
     }
+
+    fun checkoutDialog() {
+        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.view_dialog_checkout, null)
+        val finishButton = dialogView.findViewById<Button>(R.id.btn_finish)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(dialogView)
+        val dialog = builder.create()
+
+        finishButton.setOnClickListener {
+            viewModel.deleteAllCart()
+            finish()
+        }
+        dialog.setCancelable(true)
+        dialog.show()
+    }
+
+
 }
