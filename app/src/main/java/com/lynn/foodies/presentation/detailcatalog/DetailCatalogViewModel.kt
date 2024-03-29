@@ -14,6 +14,7 @@ import com.lynn.foodies.data.repository.CartRepository
 import com.lynn.foodies.presentation.detailcatalog.DetailCatalogActivity.Companion.startActivity
 import com.lynn.foodies.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
+import java.lang.IllegalStateException
 
 class DetailCatalogViewModel(
     private val extras: Bundle?,
@@ -51,5 +52,11 @@ class DetailCatalogViewModel(
         context.startActivity(intent)
     }
 
+    fun addToCart(): LiveData<ResultWrapper<Boolean>> {
+        return catalog?.let {
+            val quantity = productCountLiveData.value ?: 0
+            cartRepository.createCart(it, quantity).asLiveData(Dispatchers.IO)
+        } ?: liveData { emit(ResultWrapper.Error(IllegalStateException("Product not found"))) }
+    }
 
 }

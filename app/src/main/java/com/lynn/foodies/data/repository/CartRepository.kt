@@ -5,6 +5,7 @@ import com.lynn.foodies.data.mapper.toCartEntity
 import com.lynn.foodies.data.mapper.toCartList
 import com.lynn.foodies.data.model.Cart
 import com.lynn.foodies.data.model.Catalog
+import com.lynn.foodies.data.model.PriceItem
 import com.lynn.foodies.data.source.local.database.entity.CartEntity
 import com.lynn.foodies.utils.ResultWrapper
 import com.lynn.foodies.utils.proceed
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.onStart
 
 interface CartRepository {
     fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>>
+    fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>>
     fun createCart(
         catalog: Catalog,
         quantity: Int,
@@ -41,6 +43,25 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                     val result = it.toCartList()
                     val totalPrice = result.sumOf { it.catalogPrice * it.itemQuantity }
                     Pair(result, totalPrice)
+                }
+            }.map {
+                //map to check when list is empty
+                if (it.payload?.first?.isEmpty() == false) return@map it
+                ResultWrapper.Empty(it.payload)
+            }.onStart {
+                emit(ResultWrapper.Loading())
+                delay(2000)
+            }
+    }
+    override fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>> {
+        return cartDataSource.getAllCarts()
+            .map {
+                proceed {
+                    val result = it.toCartList()
+                    val priceItemList =
+                        result.map{PriceItem(it.catalogName,it.catalogPrice*it.itemQuantity)}
+                    val totalPrice = priceItemList.sumOf { it.total }
+                    Triple(result,priceItemList,totalPrice)
                 }
             }.map {
                 //map to check when list is empty
