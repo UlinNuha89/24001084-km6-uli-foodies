@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.lynn.foodies.core.ViewHolderBinder
 import com.lynn.foodies.data.model.Catalog
 import com.lynn.foodies.databinding.ItemCatalogBinding
 import com.lynn.foodies.databinding.ItemCatalogListBinding

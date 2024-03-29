@@ -44,14 +44,21 @@ class ProfileFragment : Fragment() {
             binding.usernameEditText.setText(it.username)
             binding.emailEditText.setText(it.email)
         }
-
     }
 
     private fun observeEditMode() {
         viewModel.isEditMode.observe(viewLifecycleOwner) {
-            binding.emailEditText.isEnabled = it
-            binding.nameEditText.isEnabled = it
-            binding.usernameEditText.isEnabled = it
+            if (it == true){
+                binding.btnEdit.text = getString(R.string.text_save)
+                binding.emailEditText.isEnabled = it
+                binding.nameEditText.isEnabled = it
+                binding.usernameEditText.isEnabled = it
+            }else{
+                binding.btnEdit.text = getString(R.string.text_edit)
+                binding.emailEditText.isEnabled = it
+                binding.nameEditText.isEnabled = it
+                binding.usernameEditText.isEnabled = it
+            }
         }
 
     }
