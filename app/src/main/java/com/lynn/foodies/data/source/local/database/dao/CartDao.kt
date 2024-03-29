@@ -9,10 +9,6 @@ import androidx.room.Update
 import com.lynn.foodies.data.source.local.database.entity.CartEntity
 import kotlinx.coroutines.flow.Flow
 
-/**
-Written with love by Muhammad Hermas Yuda Pamungkas
-Github : https://github.com/hermasyp
- **/
 @Dao
 interface CartDao {
     @Query("SELECT * FROM CARTS")

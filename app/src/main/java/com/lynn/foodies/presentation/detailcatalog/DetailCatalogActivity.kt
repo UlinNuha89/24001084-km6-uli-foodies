@@ -16,6 +16,7 @@ import com.lynn.foodies.data.repository.CartRepositoryImpl
 import com.lynn.foodies.data.source.local.database.AppDatabase
 import com.lynn.foodies.databinding.ActivityDetailCatalogBinding
 import com.lynn.foodies.utils.GenericViewModelFactory
+import com.lynn.foodies.utils.proceedWhen
 import com.lynn.foodies.utils.toIndonesianFormat
 
 class DetailCatalogActivity : AppCompatActivity() {
@@ -61,7 +62,9 @@ class DetailCatalogActivity : AppCompatActivity() {
 
     private fun bindView(item: Catalog?) {
         item?.let {
-            binding.ivDetailImage.load(it.imageUrl)
+            binding.ivDetailImage.load(it.imageUrl) {
+                crossfade(true)
+            }
             binding.tvDetailTitle.text = it.name
             binding.tvDetailPrice.text = it.price.toIndonesianFormat()
             binding.tvDetailDesc.text = it.desc
@@ -89,12 +92,30 @@ class DetailCatalogActivity : AppCompatActivity() {
             onBackPressed()
         }
         binding.layoutBottomDetail.btnAddToCart.setOnClickListener {
-            val count = binding.layoutBottomDetail.tvOrderCount.text
-            Toast.makeText(
-                this,
-                getString(R.string.text_add_to_cart_on_pressed, count), Toast.LENGTH_SHORT
+            val count: CharSequence = binding.layoutBottomDetail.tvOrderCount.text
+            addProductToCart(count)
+
+        }
+    }
+
+    private fun addProductToCart(count: CharSequence) {
+        viewModel.addToCart().observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_add_to_cart_on_pressed, count), Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                },
+                doOnError = {
+                    Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)
+                        .show()
+                },
+                doOnLoading = {
+                    Toast.makeText(this, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                }
             )
-                .show()
         }
     }
 }
