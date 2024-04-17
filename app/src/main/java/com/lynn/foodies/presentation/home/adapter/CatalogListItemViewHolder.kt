@@ -17,7 +17,7 @@ class CatalogListItemViewHolder(
                 crossfade(true)
             }
             binding.tvCatalogName.text = it.name
-            binding.tvCatalogPrice.text = it.price.toIndonesianFormat()
+            binding.tvCatalogPrice.text = it.price.toDouble().toIndonesianFormat()
             itemView.setOnClickListener {
                 listener.onItemClicked(item)
             }

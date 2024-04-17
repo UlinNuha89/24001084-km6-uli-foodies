@@ -66,10 +66,10 @@ class DetailCatalogActivity : AppCompatActivity() {
                 crossfade(true)
             }
             binding.tvDetailTitle.text = it.name
-            binding.tvDetailPrice.text = it.price.toIndonesianFormat()
-            binding.tvDetailDesc.text = it.desc
+            binding.tvDetailPrice.text = it.priceFormat
+            binding.tvDetailDesc.text = it.detail
             binding.tvDetailLocation.text = it.location
-            setAddToCartText(it.price)
+            setAddToCartText(it.price.toDouble())
         }
     }
 

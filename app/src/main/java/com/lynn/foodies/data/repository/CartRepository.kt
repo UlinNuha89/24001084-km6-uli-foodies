@@ -88,7 +88,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                         itemQuantity = quantity,
                         catalogName = catalog.name,
                         catalogImageUrl = catalog.imageUrl,
-                        catalogPrice = catalog.price,
+                        catalogPrice = catalog.price.toDouble(),
                         itemNotes = notes
                     )
                 )
