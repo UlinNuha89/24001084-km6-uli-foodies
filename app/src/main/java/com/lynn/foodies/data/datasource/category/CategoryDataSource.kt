@@ -1,7 +1,7 @@
 package com.lynn.foodies.data.datasource.category
 
-import com.lynn.foodies.data.model.Category
+import com.lynn.foodies.data.source.network.model.category.CategoriesResponse
 
 interface CategoryDataSource {
-    fun getCategory(): List<Category>
+    suspend fun getCategories(): CategoriesResponse
 }

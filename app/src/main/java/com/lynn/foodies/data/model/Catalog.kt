@@ -7,10 +7,11 @@ import java.util.UUID
 @Parcelize
 data class Catalog(
     var id: String? = UUID.randomUUID().toString(),
-    var name: String,
     var imageUrl: String,
-    var price: Double,
-    var desc: String,
+    var name: String,
+    var priceFormat: String,
+    var price: Int,
+    var detail: String,
     var rating: Double,
     var location: String,
     var locUrl: String

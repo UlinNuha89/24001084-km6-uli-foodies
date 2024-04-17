@@ -1,7 +1,7 @@
 package com.lynn.foodies.data.datasource.catalog
 
-import com.lynn.foodies.data.model.Catalog
+import com.lynn.foodies.data.source.network.model.catalog.CatalogResponse
 
 interface CatalogDataSource {
-    fun getCatalog(): List<Catalog>
+    suspend fun getCatalogs (categoryName: String? = null): CatalogResponse
 }

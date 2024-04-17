@@ -2,7 +2,7 @@ package com.lynn.foodies.data.model
 
 import java.util.UUID
 data class Category(
-    var id: String = UUID.randomUUID().toString(),
+    var id: String? = UUID.randomUUID().toString(),
     var name: String,
-    var imageUrl: String
+    var imgUrl: String,
 )

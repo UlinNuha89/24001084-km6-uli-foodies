@@ -36,13 +36,13 @@ class CategoryAdapter(private val itemClick: (Category) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        return CategoryViewHolder(
+        val binding =
             ItemCategoryBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-        )
+        return CategoryViewHolder(binding, itemClick)
     }
 
     //counting data size
@@ -51,11 +51,19 @@ class CategoryAdapter(private val itemClick: (Category) -> Unit) :
         holder.bind(dataDiffer.currentList[position])
     }
 
-    class CategoryViewHolder(private val binding: ItemCategoryBinding) :
+    class CategoryViewHolder(
+        private val binding: ItemCategoryBinding,
+        val itemClick: (Category) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Category) {
-            binding.tvCategoryName.text = item.name
-            binding.ivCategoryImage.load(item.imageUrl)
+            with(item) {
+                binding.ivCategoryImage.load(item.imgUrl) {
+                    crossfade(true)
+                }
+                binding.tvCategoryName.text = item.name
+                itemView.setOnClickListener { itemClick(this) }
+            }
         }
     }
 }
