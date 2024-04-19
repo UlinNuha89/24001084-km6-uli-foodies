@@ -19,5 +19,9 @@
         android:id="@+id/menu_tab_profile"
         android:name="com.lynn.foodies.presentation.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_menu_tab_profile_to_menu_tab_home"
+            app:destination="@id/menu_tab_home" />
+    </fragment>
 </navigation>
