@@ -26,6 +26,7 @@ import com.lynn.foodies.presentation.home.adapter.CategoryAdapter
 import com.lynn.foodies.presentation.home.adapter.OnItemClickedListener
 import com.lynn.foodies.utils.GenericViewModelFactory
 import com.lynn.foodies.utils.proceedWhen
+import java.lang.NumberFormatException
 
 class HomeFragment : Fragment() {
 
@@ -49,10 +50,9 @@ class HomeFragment : Fragment() {
 
     private val categoryAdapter: CategoryAdapter by lazy {
         CategoryAdapter {
-            //assigning variable in viewmodel, so when change grid/list data didn't change
-            observeGridMode()
+            //assigning variable in viewmodel, so when change to grid/list data didn't change
             viewModel.catalogName = it.name
-            getCatalogData(viewModel.isGridMode, viewModel.catalogName)
+            observeGridMode()
         }
     }
 
@@ -69,9 +69,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeGridMode()
         getCategoryData()
-        getCatalogData(viewModel.isGridMode)
+        observeGridMode()
         setClickAction()
     }
 

@@ -1,5 +1,7 @@
 package com.lynn.foodies.data.source.network.services
 
+import com.catnip.kokomputer.data.source.network.model.checkout.CheckoutRequestPayload
+import com.catnip.kokomputer.data.source.network.model.checkout.CheckoutResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -7,8 +9,10 @@ import java.util.concurrent.TimeUnit
 import com.lynn.foodies.BuildConfig
 import com.lynn.foodies.data.source.network.model.catalog.CatalogResponse
 import com.lynn.foodies.data.source.network.model.category.CategoriesResponse
+import retrofit2.http.Body
 import retrofit2.http.Query
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface FoodiesApiService {
 
@@ -17,6 +21,10 @@ interface FoodiesApiService {
 
     @GET("listmenu")
     suspend fun getCatalog(@Query("c") category: String? = null):CatalogResponse
+
+    @POST("order")
+    suspend fun createOrder(@Body payload: CheckoutRequestPayload): CheckoutResponse
+
     companion object {
         @JvmStatic
         operator fun invoke(): FoodiesApiService {

@@ -1,8 +1,6 @@
-package com.lynn.foodies.data.datasource.user
+package com.lynn.foodies.data.datasource.pref
 
-import com.lynn.foodies.data.model.Profile
 import com.lynn.foodies.data.source.local.pref.UserPreference
-import com.lynn.foodies.data.source.local.pref.UserPreferenceImpl
 
 interface UserDataSource {
     fun isUsingGridMode(): Boolean
