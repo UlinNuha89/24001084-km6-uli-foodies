@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.lynn.foodies.data.repository.CatalogRepository
 import com.lynn.foodies.data.repository.CategoryRepository
+import com.lynn.foodies.data.repository.UserRepository
 import com.lynn.foodies.data.source.local.pref.UserPreference
 import com.lynn.foodies.data.source.local.pref.UserPreferenceImpl
 import kotlinx.coroutines.Dispatchers
@@ -14,23 +15,26 @@ import kotlinx.coroutines.Dispatchers
 class HomeViewModel(
     private val categoryRepository: CategoryRepository,
     private val catalogRepository: CatalogRepository,
-    context: Context
+    private val userPreference: UserPreference,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
+    val isLoggedIn = userRepository.isLoggedIn()
+    fun getUsername() = userRepository.getCurrentUser()?.fullName
 
     var isGridMode : Boolean = false
     var catalogName :String? =null
 
-    fun getPref(context: Context): Boolean = UserPreferenceImpl(context).isUsingGridMode()
-    fun setPref(context: Context, isUsingGridMode: Boolean) =
-        UserPreferenceImpl(context).setUsingGridMode(isUsingGridMode)
+    private fun getPref() = userPreference.isUsingGridMode()
+    fun setPref(isUsingGridMode: Boolean) =
+        userPreference.setUsingGridMode(isUsingGridMode)
 
     fun getCategories() = categoryRepository.getCategories().asLiveData(Dispatchers.IO)
     fun getCatalogs(categoryName:String? = null) =
         catalogRepository.getCatalogs(categoryName).asLiveData(Dispatchers.IO)
 
     private val _isUsingGridMode = MutableLiveData(
-        getPref(context)
+        getPref()
     )
     val isUsingGridMode: LiveData<Boolean>
         get() = _isUsingGridMode

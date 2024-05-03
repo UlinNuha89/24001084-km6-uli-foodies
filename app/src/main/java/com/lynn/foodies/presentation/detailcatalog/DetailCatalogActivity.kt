@@ -4,33 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.lynn.foodies.R
-import com.lynn.foodies.data.datasource.cart.CartDataSource
-import com.lynn.foodies.data.datasource.cart.CartDatabaseDataSource
 import com.lynn.foodies.data.model.Catalog
-import com.lynn.foodies.data.repository.CartRepository
-import com.lynn.foodies.data.repository.CartRepositoryImpl
-import com.lynn.foodies.data.source.local.database.AppDatabase
 import com.lynn.foodies.databinding.ActivityDetailCatalogBinding
-import com.lynn.foodies.utils.GenericViewModelFactory
 import com.lynn.foodies.utils.proceedWhen
 import com.lynn.foodies.utils.toIndonesianFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailCatalogActivity : AppCompatActivity() {
 
     private val binding: ActivityDetailCatalogBinding by lazy {
         ActivityDetailCatalogBinding.inflate(layoutInflater)
     }
-    private val viewModel: DetailCatalogViewModel by viewModels {
-        val db = AppDatabase.getInstance(this)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(
-            DetailCatalogViewModel(intent?.extras, rp)
-        )
+    private val viewModel: DetailCatalogViewModel by viewModel {
+        parametersOf(intent.extras)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

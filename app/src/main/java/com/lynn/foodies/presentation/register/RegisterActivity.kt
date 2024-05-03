@@ -4,20 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSourceImpl
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
 import com.lynn.foodies.R
-import com.lynn.foodies.data.repository.UserRepositoryImpl
 import com.lynn.foodies.databinding.ActivityRegisterBinding
 import com.lynn.foodies.presentation.login.LoginActivity
 import com.lynn.foodies.presentation.main.MainActivity
-import com.lynn.foodies.utils.GenericViewModelFactory
 import com.lynn.foodies.utils.highLightWord
 import com.lynn.foodies.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -25,17 +21,7 @@ class RegisterActivity : AppCompatActivity() {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: RegisterViewModel by viewModels {
-        GenericViewModelFactory.create(createViewModel())
-    }
-
-    private fun createViewModel(): RegisterViewModel {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val dataSource = FirebaseAuthDataSourceImpl(firebaseAuth)
-        val repo = UserRepositoryImpl(dataSource)
-        return RegisterViewModel(repo)
-    }
-
+    private val viewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

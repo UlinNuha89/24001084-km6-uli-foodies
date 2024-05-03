@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSourceImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.lynn.foodies.R
-import com.lynn.foodies.data.repository.UserRepositoryImpl
 import com.lynn.foodies.databinding.ActivityMainBinding
 import com.lynn.foodies.presentation.login.LoginActivity
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,14 +19,10 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private fun viewModel(): MainViewModel {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val dataSource = FirebaseAuthDataSourceImpl(firebaseAuth)
-        val repo = UserRepositoryImpl(dataSource)
-        return MainViewModel(repo)
-    }
+    private val auth: FirebaseAuth by inject()
 
-    private val isLogin = viewModel().isLoggedIn()
+    private val viewModel: MainViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -39,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
                 R.id.menu_tab_profile -> {
-                    if (!isLogin) {
+                    if (!viewModel.isLoggedIn()) {
                         navigateToLogin()
                         navigateToHome(controller)
                     }
@@ -49,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToHome(controller:NavController) {
+    private fun navigateToHome(controller: NavController) {
         controller.navigate(R.id.menu_tab_home)
     }
 

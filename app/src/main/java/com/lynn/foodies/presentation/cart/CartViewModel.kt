@@ -14,7 +14,7 @@ class CartViewModel(
     private val cartRepository: CartRepository,
     private val repository: UserRepository
 ) : ViewModel() {
-    val isLoggedIn =repository.isLoggedIn()
+    val isLoggedIn = repository.isLoggedIn()
     fun getAllCarts() = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
 
     fun decreaseCart(item: Cart) {

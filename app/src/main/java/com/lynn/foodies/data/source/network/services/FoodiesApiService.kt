@@ -20,7 +20,9 @@ interface FoodiesApiService {
     suspend fun getCategories(): CategoriesResponse
 
     @GET("listmenu")
-    suspend fun getCatalog(@Query("c") category: String? = null):CatalogResponse
+    suspend fun getCatalog(
+        @Query("c") category: String? = null
+    ):CatalogResponse
 
     @POST("order")
     suspend fun createOrder(@Body payload: CheckoutRequestPayload): CheckoutResponse

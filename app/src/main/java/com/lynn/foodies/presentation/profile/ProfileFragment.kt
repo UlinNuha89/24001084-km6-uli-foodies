@@ -12,26 +12,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSourceImpl
-import com.google.firebase.auth.FirebaseAuth
 import com.lynn.foodies.R
-import com.lynn.foodies.data.repository.UserRepositoryImpl
 import com.lynn.foodies.databinding.FragmentProfileBinding
 import com.lynn.foodies.presentation.main.MainActivity
-import com.lynn.foodies.utils.GenericViewModelFactory
 import com.lynn.foodies.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
-    private val viewModel: ProfileViewModel by viewModels {
-        GenericViewModelFactory.create(createViewModel())
-    }
+    private val viewModel: ProfileViewModel by viewModel()
+
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
@@ -41,13 +35,6 @@ class ProfileFragment : Fragment() {
 
     private fun changePhotoProfile(uri: Uri) {
         viewModel.updateProfilePicture(uri)
-    }
-
-    private fun createViewModel(): ProfileViewModel {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val dataSource = FirebaseAuthDataSourceImpl(firebaseAuth)
-        val repo = UserRepositoryImpl(dataSource)
-        return ProfileViewModel(repo)
     }
 
     override fun onCreateView(
