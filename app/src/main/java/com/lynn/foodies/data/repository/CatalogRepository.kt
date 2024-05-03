@@ -8,6 +8,7 @@ import com.lynn.foodies.data.model.Cart
 import com.lynn.foodies.data.model.Catalog
 import com.lynn.foodies.utils.ResultWrapper
 import com.lynn.foodies.utils.proceedFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 
 interface CatalogRepository {
@@ -20,6 +21,7 @@ interface CatalogRepository {
 class CatalogRepositoryImpl(private val dataSource: CatalogDataSource) : CatalogRepository {
     override fun getCatalogs(categoryName: String?): Flow<ResultWrapper<List<Catalog>>> {
         return proceedFlow {
+            delay(1000)
             dataSource.getCatalogs(categoryName).data.toCatalogs()
         }
     }

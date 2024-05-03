@@ -4,49 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lynn.foodies.R
-import com.lynn.foodies.data.datasource.catalog.CatalogApiDataSource
-import com.lynn.foodies.data.datasource.catalog.CatalogDataSource
-import com.lynn.foodies.data.datasource.category.CategoryApiDataSource
-import com.lynn.foodies.data.datasource.category.CategoryDataSource
 import com.lynn.foodies.data.model.Catalog
 import com.lynn.foodies.data.model.Category
-import com.lynn.foodies.data.repository.CatalogRepository
-import com.lynn.foodies.data.repository.CatalogRepositoryImpl
-import com.lynn.foodies.data.repository.CategoryRepository
-import com.lynn.foodies.data.repository.CategoryRepositoryImpl
-import com.lynn.foodies.data.source.network.services.FoodiesApiService
 import com.lynn.foodies.databinding.FragmentHomeBinding
 import com.lynn.foodies.presentation.detailcatalog.DetailCatalogActivity
 import com.lynn.foodies.presentation.home.adapter.CatalogAdapter
 import com.lynn.foodies.presentation.home.adapter.CategoryAdapter
 import com.lynn.foodies.presentation.home.adapter.OnItemClickedListener
-import com.lynn.foodies.utils.GenericViewModelFactory
 import com.lynn.foodies.utils.proceedWhen
-import java.lang.NumberFormatException
+import kotlinx.coroutines.delay
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val viewModel: HomeViewModel by viewModels {
-        val service = FoodiesApiService.invoke()
-        val catalogDataSource: CatalogDataSource = CatalogApiDataSource(service)
-        val catalogRepository: CatalogRepository = CatalogRepositoryImpl(catalogDataSource)
-        val categoryDataSource: CategoryDataSource = CategoryApiDataSource(service)
-        val categoryRepository: CategoryRepository = CategoryRepositoryImpl(categoryDataSource)
-        GenericViewModelFactory.create(
-            HomeViewModel(
-                categoryRepository,
-                catalogRepository,
-                requireContext()
-            )
-        )
-    }
-
+    private val viewModel: HomeViewModel by viewModel()
 
     private val categoryAdapter: CategoryAdapter by lazy {
         CategoryAdapter {
@@ -69,14 +46,23 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupHeader(viewModel.isLoggedIn)
         getCategoryData()
         observeGridMode()
         setClickAction()
     }
 
+    private fun setupHeader(isLoggedIn: Boolean) {
+        if (isLoggedIn)
+            binding.layoutHeader.tvName.text =
+                getString(R.string.text_home_name, viewModel.getUsername())
+        else
+            binding.layoutHeader.tvName.text = getString(R.string.text_home_name, "You")
+    }
+
     private fun observeGridMode() {
         viewModel.isUsingGridMode.observe(viewLifecycleOwner) { isUsingGridMode ->
-            viewModel.setPref(requireContext(), isUsingGridMode)
+            viewModel.setPref(isUsingGridMode)
             viewModel.isGridMode = isUsingGridMode
             getCatalogData(isUsingGridMode, viewModel.catalogName)
             setImageListMode(isUsingGridMode)
@@ -86,8 +72,31 @@ class HomeFragment : Fragment() {
     private fun getCategoryData() {
         viewModel.getCategories().observe(viewLifecycleOwner) {
             it.proceedWhen(
+                doOnLoading = {
+                    binding.rvCategory.isVisible = false
+                    binding.ivMenu.isVisible = false
+                    binding.tvTitleMenu.isVisible = false
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                },
                 doOnSuccess = {
+                    binding.rvCategory.isVisible = true
+                    binding.ivMenu.isVisible = true
+                    binding.tvTitleMenu.isVisible = true
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
                     it.payload?.let { data -> bindCategoryList(data) }
+                },
+                doOnError = {
+                    binding.rvCategory.isVisible = false
+                    binding.ivMenu.isVisible = false
+                    binding.tvTitleMenu.isVisible = false
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.text = it.exception?.message.orEmpty()
                 }
             )
         }
@@ -96,8 +105,31 @@ class HomeFragment : Fragment() {
     private fun getCatalogData(isUsingGrid: Boolean, categoryName: String? = null) {
         viewModel.getCatalogs(categoryName).observe(viewLifecycleOwner) {
             it.proceedWhen(
+                doOnLoading = {
+                    binding.rvCatalogList.isVisible = false
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = true
+                    binding.ivMenu.isVisible = true
+                    binding.tvTitleMenu.isVisible = true
+                },
                 doOnSuccess = {
+                    binding.rvCatalogList.isVisible = true
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.ivMenu.isVisible = true
+                    binding.tvTitleMenu.isVisible = true
                     it.payload?.let { data -> bindCatalogList(isUsingGrid, data) }
+                },
+                doOnError = {
+                    binding.rvCatalogList.isVisible = false
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = true
+                    binding.ivMenu.isVisible = true
+                    binding.tvTitleMenu.isVisible = true
+                    binding.layoutState.tvError.text = it.exception?.message.orEmpty()
                 }
             )
         }

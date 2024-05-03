@@ -11,10 +11,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.lynn.foodies.data.model.Catalog
 import com.lynn.foodies.data.repository.CartRepository
-import com.lynn.foodies.presentation.detailcatalog.DetailCatalogActivity.Companion.startActivity
 import com.lynn.foodies.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
-import java.lang.IllegalStateException
 
 class DetailCatalogViewModel(
     private val extras: Bundle?,

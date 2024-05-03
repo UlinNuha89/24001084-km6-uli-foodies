@@ -52,7 +52,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                 ResultWrapper.Empty(it.payload)
             }.onStart {
                 emit(ResultWrapper.Loading())
-                delay(2000)
+                delay(1000)
             }
     }
     override fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>> {
@@ -71,7 +71,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                 ResultWrapper.Empty(it.payload)
             }.onStart {
                 emit(ResultWrapper.Loading())
-                delay(2000)
+                delay(1000)
             }
     }
 
