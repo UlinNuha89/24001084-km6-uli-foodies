@@ -1,9 +1,9 @@
 package com.lynn.foodies.data.repository
 
 import android.net.Uri
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSource
 import com.lynn.foodies.data.model.User
 import com.lynn.foodies.data.model.toUser
+import com.lynn.foodies.data.source.network.firebase.auth.FirebaseAuthDataSource
 import com.lynn.foodies.utils.ResultWrapper
 import com.lynn.foodies.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow

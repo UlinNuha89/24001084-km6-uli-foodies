@@ -64,7 +64,7 @@ class CartFragment : Fragment() {
 
     private fun setClickListeners() {
         binding.btnCheckout.setOnClickListener {
-            if (viewModel.isLoggedIn) {
+            if (viewModel.isLoggedIn()) {
                 startActivity(Intent(requireContext(), CheckoutActivity::class.java))
             } else {
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
@@ -88,7 +88,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.isVisible = false
                     binding.rvCart.isVisible = false
                     binding.btnCheckout.isEnabled = false
-                    btnCheckoutText(viewModel.isLoggedIn)
+                    btnCheckoutText(viewModel.isLoggedIn())
                 },
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
@@ -96,7 +96,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.isVisible = false
                     binding.rvCart.isVisible = true
                     binding.btnCheckout.isEnabled = true
-                    btnCheckoutText(viewModel.isLoggedIn)
+                    btnCheckoutText(viewModel.isLoggedIn())
                     result.payload?.let { (carts, totalPrice) ->
                         adapter.submitData(carts)
                         binding.tvTotalPrice.text = totalPrice.toIndonesianFormat()
@@ -109,7 +109,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.text = result.exception?.message.orEmpty()
                     binding.rvCart.isVisible = false
                     binding.btnCheckout.isEnabled = false
-                    btnCheckoutText(viewModel.isLoggedIn)
+                    btnCheckoutText(viewModel.isLoggedIn())
                 },
                 doOnEmpty = {
                     binding.layoutState.root.isVisible = true
@@ -118,7 +118,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.text = getString(R.string.text_cart_is_empty)
                     binding.rvCart.isVisible = false
                     binding.btnCheckout.isEnabled = false
-                    btnCheckoutText(viewModel.isLoggedIn)
+                    btnCheckoutText(viewModel.isLoggedIn())
                     result.payload?.let { (carts, totalPrice) ->
                         binding.tvTotalPrice.text = totalPrice.toIndonesianFormat()
                     }

@@ -63,7 +63,6 @@ class HomeFragment : Fragment() {
     private fun observeGridMode() {
         viewModel.isUsingGridMode.observe(viewLifecycleOwner) { isUsingGridMode ->
             viewModel.setPref(isUsingGridMode)
-            viewModel.isGridMode = isUsingGridMode
             getCatalogData(isUsingGridMode, viewModel.catalogName)
             setImageListMode(isUsingGridMode)
         }

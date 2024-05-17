@@ -22,10 +22,8 @@ class HomeViewModel(
     val isLoggedIn = userRepository.isLoggedIn()
     fun getUsername() = userRepository.getCurrentUser()?.fullName
 
-    var isGridMode : Boolean = false
     var catalogName :String? =null
 
-    private fun getPref() = userPreference.isUsingGridMode()
     fun setPref(isUsingGridMode: Boolean) =
         userPreference.setUsingGridMode(isUsingGridMode)
 
@@ -34,7 +32,7 @@ class HomeViewModel(
         catalogRepository.getCatalogs(categoryName).asLiveData(Dispatchers.IO)
 
     private val _isUsingGridMode = MutableLiveData(
-        getPref()
+        userPreference.isUsingGridMode()
     )
     val isUsingGridMode: LiveData<Boolean>
         get() = _isUsingGridMode

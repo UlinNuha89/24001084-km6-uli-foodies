@@ -1,8 +1,6 @@
 package com.lynn.foodies.di
 
 import android.content.SharedPreferences
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSource
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSourceImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.lynn.foodies.data.datasource.cart.CartDataSource
 import com.lynn.foodies.data.datasource.cart.CartDatabaseDataSource
@@ -24,11 +22,13 @@ import com.lynn.foodies.data.source.local.database.AppDatabase
 import com.lynn.foodies.data.source.local.database.dao.CartDao
 import com.lynn.foodies.data.source.local.pref.UserPreference
 import com.lynn.foodies.data.source.local.pref.UserPreferenceImpl
+import com.lynn.foodies.data.source.network.firebase.auth.FirebaseAuthDataSource
+import com.lynn.foodies.data.source.network.firebase.auth.FirebaseAuthDataSourceImpl
 import com.lynn.foodies.data.source.network.services.FoodiesApiService
 import com.lynn.foodies.presentation.cart.CartViewModel
 import com.lynn.foodies.presentation.checkout.CheckoutViewModel
-import com.lynn.foodies.presentation.home.HomeViewModel
 import com.lynn.foodies.presentation.detailcatalog.DetailCatalogViewModel
+import com.lynn.foodies.presentation.home.HomeViewModel
 import com.lynn.foodies.presentation.login.LoginViewModel
 import com.lynn.foodies.presentation.main.MainViewModel
 import com.lynn.foodies.presentation.profile.ProfileViewModel
@@ -42,7 +42,7 @@ import org.koin.dsl.module
 
 object AppModules {
     private val networkModule = module {
-        single<FoodiesApiService> { FoodiesApiService.invoke()}
+        single<FoodiesApiService> { FoodiesApiService.invoke() }
     }
     private val firebaseModule = module {
         single<FirebaseAuth> { FirebaseAuth.getInstance() }
