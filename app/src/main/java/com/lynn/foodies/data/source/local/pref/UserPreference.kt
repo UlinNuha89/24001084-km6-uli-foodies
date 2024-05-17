@@ -1,8 +1,6 @@
 package com.lynn.foodies.data.source.local.pref
 
 import android.content.SharedPreferences
-import com.lynn.foodies.data.model.Profile
-import com.lynn.foodies.utils.SharedPreferenceUtils.get
 import com.lynn.foodies.utils.SharedPreferenceUtils.set
 
 interface UserPreference {

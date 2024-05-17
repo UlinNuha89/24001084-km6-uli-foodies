@@ -12,9 +12,9 @@ import kotlinx.coroutines.launch
 
 class CartViewModel(
     private val cartRepository: CartRepository,
-    private val repository: UserRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
-    val isLoggedIn = repository.isLoggedIn()
+    fun isLoggedIn() = userRepository.isLoggedIn()
     fun getAllCarts() = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
 
     fun decreaseCart(item: Cart) {

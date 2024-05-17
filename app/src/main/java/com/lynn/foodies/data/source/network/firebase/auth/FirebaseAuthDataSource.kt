@@ -1,4 +1,4 @@
-package com.catnip.firebaseauthexample.data.network.firebase.auth
+package com.lynn.foodies.data.source.network.firebase.auth
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth

@@ -1,7 +1,7 @@
 package com.lynn.foodies.data.source.network.services
 
-import com.catnip.kokomputer.data.source.network.model.checkout.CheckoutRequestPayload
-import com.catnip.kokomputer.data.source.network.model.checkout.CheckoutResponse
+import com.lynn.foodies.data.source.network.model.checkout.CheckoutRequestPayload
+import com.lynn.foodies.data.source.network.model.checkout.CheckoutResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
